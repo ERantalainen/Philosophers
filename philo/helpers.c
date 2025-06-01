@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/01 02:42:46 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/01 19:26:25 by erantala         ###   ########.fr       */
+/*   Created: 2025/06/01 19:05:13 by erantala          #+#    #+#             */
+/*   Updated: 2025/06/01 19:11:07 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <limits.h>
 
-int	main(argc, argv)
+int	philo_atoi(char	*s)
 {
-	t_data *data;
+	int		i;
+	long	res;
 	
-	if (argc > 6)
-		return ;
-	if (argc < 5)
-		return ;
-	data = validate_input((argv + 1), argc - 1);
-	if (!data)
-		return ;
-	if (argc == 5)
-		data->number_of_eat - 1;
-	ft_init_data()
+	i = 0;
+	res = 0;
+	if (s[i] == '-')
+		return (-1);
+	while (s[i] && s[i] >= '0' && s[i] <= '9')
+	{
+		res = res * 10 + s[i] - '0';
+		if (res > INT_MAX)
+			return (-1);
+	}
+	if (s[i] != '\0')
+		return (-1);
+	return ((int)res);
 }
+
