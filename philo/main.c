@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 02:42:46 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/01 19:26:25 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/01 20:37:08 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@ int	main(argc, argv)
 {
 	t_data *data;
 	
-	if (argc > 6)
-		return ;
-	if (argc < 5)
-		return ;
 	data = validate_input((argv + 1), argc - 1);
 	if (!data)
 		return ;

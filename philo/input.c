@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:56:10 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/01 20:28:25 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/01 20:37:01 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_data	*validate_input(char **args, int count)
 	return (data);
 }
 
-int	ft_init_data(t_data *data)
+int	ft_init_mutex(t_data *data)
 {
 	int	i;
 
