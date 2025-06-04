@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:56:10 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/01 20:37:01 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/04 18:42:24 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_data	*validate_input(char **args, int count)
 	data->time_to_eat = philo_atoi(args[2]);
 	if (data->time_to_eat == - 1)
 		return (NULL);
-	data->time_to_sleep = philo_atoi(args[3]);	
+	data->time_to_sleep = philo_atoi(args[3]);
 	if (data->time_to_sleep == - 1)
 		return (NULL);
 	if (count == 5)
@@ -55,8 +55,73 @@ int	ft_init_mutex(t_data *data)
 			while (--i >= 0)
 				pthread_mutex_destroy(&data->forks[i]);
 			free(data->forks);
+			data->forks = NULL;
 			return (-1);
 		}
 		i++;
 	}
+	if (pthread_mutex_init(&data->print, NULL) != 0)
+		return (-1);
+	return (0);
+}
+
+t_philo	*ft_init_philos(t_data *data)
+{
+	int		i;
+	t_philo	*philosophers;
+
+	i = 0;
+	philosophers = malloc(sizeof(t_philo) * data->philo_count);
+	if (!philosophers)
+		return (NULL);
+	while (i < data->philo_count)
+	{
+		philosophers[i].philo_n = i;
+		philosophers[i].times_eaten = 0;
+		philosophers[i].last_meal = 0;
+		philosophers[i].state = 1;
+		philosophers[i].data = data;
+		i++;
+	}
+	return (0);
+}
+t_philo	*ft_init_data(int argc, char **argv)
+{
+	t_data	*data;
+	t_philo	*philos;
+	data = validate_input(argv + 1, argc - 1);
+	if (!data)
+		return (NULL);
+	if (ft_init_mutex(data) == -1);
+	{
+		ft_free(philos, data);
+		return (NULL);
+	}
+	philos = ft_init_philos(data);
+	if (philos == NULL)
+	{
+		ft_free(philos, data);
+		return (NULL);
+	}
+	return (data);
+}
+
+void	ft_free(t_philo *philos, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->forks)
+	{
+		while (i < data->philo_count)
+		{
+			pthread_mutex_destroy(&data->forks[i]);
+			i++;
+		}
+		free(data->forks);
+	}
+	if (data)
+		free(data);
+	if (philos)
+		free(philos);
 }
