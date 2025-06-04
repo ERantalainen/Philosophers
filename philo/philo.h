@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 02:34:35 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/04 19:47:32 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/05 01:59:14 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,25 @@
 
 typedef struct s_philo
 {
-	int			philo_n;
-	int			times_eaten;
-	suseconds_t	last_meal;
-	int			state;
-	pthread_t	*id;
-	t_data		*data;
+	int				philo_n;
+	int				times_eaten;
+	suseconds_t		last_meal;
+	int				state;
+	pthread_t		*id;
+	struct timeval	*clock;
+	t_data			*data;
 }	t_philo;
 
 typedef struct s_data
 {
-	int				philo_count;
+	volatile int	n;
 	atomic_int		status;
 	struct timeval	*tv;
-	suseconds_t		start;
-	int				time_to_die;
-	int				time_to_sleep;
-	int				time_to_eat;
-	int				number_of_eat;
+	volatile long	start;
+	volatile int	time_to_die;
+	volatile int	time_to_sleep;
+	volatile int	time_to_eat;
+	volatile int	number_of_eat;
 	int				(*death)(int, t_philo *);
 	int				(*eat)(int, t_philo *);
 	int				(*sleep)(int, t_philo *);

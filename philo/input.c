@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:56:10 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/04 18:42:24 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/05 01:58:04 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ t_data	*validate_input(char **args, int count)
 	data = (t_data *)malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
-	data->philo_count = philo_atoi(args[0]);
-	if (data->philo_count == -1)
+	data->n = philo_atoi(args[0]);
+	if (data->n == -1)
 		return (NULL);
 	data->time_to_die = philo_atoi(args[1]);
 	if (data->time_to_die == -1)
@@ -45,10 +45,10 @@ int	ft_init_mutex(t_data *data)
 	int	i;
 
 	i = 0;
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->philo_count);
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->n);
 	if (!data->forks)
 		return (-1);
-	while (i < data->philo_count)
+	while (i < data->n)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
 		{
@@ -71,10 +71,10 @@ t_philo	*ft_init_philos(t_data *data)
 	t_philo	*philosophers;
 
 	i = 0;
-	philosophers = malloc(sizeof(t_philo) * data->philo_count);
+	philosophers = malloc(sizeof(t_philo) * data->n);
 	if (!philosophers)
 		return (NULL);
-	while (i < data->philo_count)
+	while (i < data->n)
 	{
 		philosophers[i].philo_n = i;
 		philosophers[i].times_eaten = 0;
@@ -113,7 +113,7 @@ void	ft_free(t_philo *philos, t_data *data)
 	i = 0;
 	if (data->forks)
 	{
-		while (i < data->philo_count)
+		while (i < data->n)
 		{
 			pthread_mutex_destroy(&data->forks[i]);
 			i++;

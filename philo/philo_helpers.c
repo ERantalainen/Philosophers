@@ -6,27 +6,45 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 17:06:03 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/04 19:37:58 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/05 02:34:30 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	grab_fork(int n, t_philo *philos)
+int	grab_fork(int i, t_philo *philos)
 {
-	while (1)
-	{
+	int	right;
+	int	left;
 
+	left = i;
+	right = (i + 1) % philos->data->n;
+	if (i % 2 == 0)
+	{
+		pthread_mutex_lock(&philos->data->forks[left]);
+		pthread_mutex_lock(&philos->data->forks[right]);
 	}
+	else
+	{
+		pthread_mutex_lock(&philos->data->forks[right]);
+		pthread_mutex_lock(&philos->data->forks[left]);
+	}
+	if (philos->data->status == 0)
+	{
+		pthread_mutex_lock(&philos->data->forks[left]);
+		pthread_mutex_unlock(&philos->data->forks[right]);
+		return (0);
+	}
+	return (1);
 }
 
-int	eat(int n, t_philo *philos)
+int	eat(int i, t_philo *philos)
 {
 	int			timer;
 	int			i;
 	suseconds_t	curr_time;
 
-	ft_philo_printf(n, "eating", philos);
+	ft_philo_printf(i, "eating", philos);
 	i = 0;
 	timer = philos->data->time_to_eat;
 	gettimeofday(philos->data->tv, NULL);
@@ -34,18 +52,18 @@ int	eat(int n, t_philo *philos)
 	{
 		usleep(1000);
 		i++;
-		if (philos->data->death(n, philos));
+		if (philos->data->death(i, philos));
 			return (0);
 	}
 	return (1);
 }
-int	rest(int n, t_philo *philos)
+int	rest(int i, t_philo *philos)
 {
 	int			timer;
 	int			i;
 	suseconds_t	curr_time;
 
-	ft_philo_printf(n, "sleeping", philos);
+	ft_philo_printf(i, "sleeping", philos);
 	i = 0;
 	timer = philos->data->time_to_sleep;
 	gettimeofday(philos->data->tv, NULL);
@@ -53,22 +71,22 @@ int	rest(int n, t_philo *philos)
 	{
 		usleep(1000);
 		i++;
-		if (philos->data->death(n, philos));
+		if (philos->data->death(i, philos));
 			return (0);
 	}
 	return (1);
 }
 
-int	think(int n, t_philo *philos)
+int	think(int i, t_philo *philos)
 {
 	usleep(10);
-	ft_philo_printf(n, "thinking", philos);
-	ft_check_death(n, philos);
-	philos->data->grab(n, philos);
+	ft_philo_printf(i, "thinking", philos);
+	ft_check_death(i, philos);
+	philos->data->grab(i, philos);
 
 }
 
-int	ft_check_death(int n, t_philo *philos)
+int	ft_check_death(int i, t_philo *philos)
 {
 	suseconds_t	curr;
 	suseconds_t	diff;
