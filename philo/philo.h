@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 02:34:35 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/05 01:59:14 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:51:45 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,5 @@ int	rest(int n, t_philo *philos);
 int	think(int n, t_philo *philos);
 int	ft_philo_printf(int n, char *s, t_philo **philos);
 int	ft_check_death(int n, t_philo *philos);
-
+long	get_time(void);
 #endif

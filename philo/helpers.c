@@ -6,17 +6,18 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:05:13 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/01 19:11:07 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:54:42 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
+#include <philo.h>
 
 int	philo_atoi(char	*s)
 {
 	int		i;
 	long	res;
-	
+
 	i = 0;
 	res = 0;
 	if (s[i] == '-')
@@ -32,3 +33,10 @@ int	philo_atoi(char	*s)
 	return ((int)res);
 }
 
+long	get_time(void)
+{
+	struct timeval	*tv;
+
+	gettimeofday(tv, NULL);
+	return ((tv->tv_usec / 1000) + (tv->tv_sec * 1000));
+}

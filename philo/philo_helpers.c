@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 17:06:03 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/05 02:34:30 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:51:32 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,16 @@ int	grab_fork(int i, t_philo *philos)
 int	eat(int i, t_philo *philos)
 {
 	int			timer;
-	int			i;
-	suseconds_t	curr_time;
+	long		target;
+	long	curr_time;
 
 	ft_philo_printf(i, "eating", philos);
 	i = 0;
 	timer = philos->data->time_to_eat;
-	gettimeofday(philos->data->tv, NULL);
-	while (i < timer)
+	curr_time = get_time();
+	while (< timer)
 	{
 		usleep(1000);
-		i++;
 		if (philos->data->death(i, philos));
 			return (0);
 	}
@@ -60,17 +59,17 @@ int	eat(int i, t_philo *philos)
 int	rest(int i, t_philo *philos)
 {
 	int			timer;
-	int			i;
-	suseconds_t	curr_time;
+	int			target;
+	long		curr_time;
 
+	if (philos->data->status != 1)
+		return ;
 	ft_philo_printf(i, "sleeping", philos);
-	i = 0;
 	timer = philos->data->time_to_sleep;
-	gettimeofday(philos->data->tv, NULL);
-	while (i < timer)
+	curr_time = get_time();
+	while (target < timer)
 	{
 		usleep(1000);
-		i++;
 		if (philos->data->death(i, philos));
 			return (0);
 	}

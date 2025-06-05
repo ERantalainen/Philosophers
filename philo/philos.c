@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:45:40 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/05 02:43:35 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:55:44 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_begin_philo(t_philo **philo)
 	philo[0]->data->think = &think;
 	philo[0]->data->death = &ft_check_death;
 	gettimeofday(philo[0]->data->tv, NULL);
-	philo[0]->data->start = philo[0]->data->tv->tv_usec;
+	philo[0]->data->start = get_time();
 	while(i < philo[0]->data->n)
 	{
 		philo[i]->philo_n = 1;
