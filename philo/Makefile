@@ -1,5 +1,23 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g
-SRCS =
-OBJS = 
+CFLAGS = -Wall -Wextra -Werror -pthread -g -O3 -fsanitize=address
+SRCS = helpers.c input.c main.c philo_helpers.c input.c main.c philos.c
+OBJS = $(SRCS:.c=.o)
 NAME = philo
+
+all: $(NAME)
+
+.c.o:
+	$(CC) $(CFLAGS) -c $< -o ${<:.c=.o}
+
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $^ -o $@
+
+clean:
+	rm -f $(OBJS)
+
+fclean: clean
+	rm -f $(NAME)
+
+re:	fclean all
+
+.PHONY: clean fclean all re

@@ -6,20 +6,20 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 02:42:46 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/04 18:44:52 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/06 01:23:26 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(argc, argv)
+int	main(int argc, char **argv)
 {
-	t_philo *philosophers;
+	t_philo **philosophers;
 
 	philosophers = ft_init_data(argc, argv);
 	if (!philosophers)
-		return ;
-
+		return (1);
+	ft_begin_philo(philosophers);
 }
 
 

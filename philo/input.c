@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:56:10 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/05 01:58:04 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/06 02:03:31 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_data	*validate_input(char **args, int count)
 		return (NULL);
 	if (count == 5)
 		data->number_of_eat = philo_atoi((args[4]));
-	if (data->number_of_eat = philo_atoi(args[4]) == -1);
+	if (data->number_of_eat == -1)
 		return (NULL);
 	return (data);
 }
@@ -60,39 +60,57 @@ int	ft_init_mutex(t_data *data)
 		}
 		i++;
 	}
-	if (pthread_mutex_init(&data->print, NULL) != 0)
+	data->print = malloc(sizeof(pthread_mutex_t));
+	if (!data->print)
+		return (-1);
+	if (pthread_mutex_init(data->print, NULL) != 0)
 		return (-1);
 	return (0);
 }
 
-t_philo	*ft_init_philos(t_data *data)
+t_philo	**ft_init_philos(t_data *data)
 {
 	int		i;
-	t_philo	*philosophers;
+	t_philo	**philosophers;
 
 	i = 0;
-	philosophers = malloc(sizeof(t_philo) * data->n);
+	philosophers = malloc(sizeof(t_philo *) * data->n);
 	if (!philosophers)
 		return (NULL);
 	while (i < data->n)
 	{
-		philosophers[i].philo_n = i;
-		philosophers[i].times_eaten = 0;
-		philosophers[i].last_meal = 0;
-		philosophers[i].state = 1;
-		philosophers[i].data = data;
+		philosophers[i] = malloc(sizeof(t_philo));
+		if (!philosophers[i])
+		{
+			while (--i)
+				free(philosophers[i]);
+			free(philosophers);
+			return (NULL);
+		}
 		i++;
 	}
-	return (0);
+	i = 0;
+	while (i < data->n)
+	{
+		philosophers[i]->philo_n = i;
+		philosophers[i]->times_eaten = 0;
+		philosophers[i]->last_meal = 0;
+		philosophers[i]->state = 1;
+		philosophers[i]->data = data;
+		i++;
+	}
+	return (philosophers);
 }
-t_philo	*ft_init_data(int argc, char **argv)
+t_philo	**ft_init_data(int argc, char **argv)
 {
 	t_data	*data;
-	t_philo	*philos;
+	t_philo	**philos;
+	
+	philos = NULL;
 	data = validate_input(argv + 1, argc - 1);
 	if (!data)
 		return (NULL);
-	if (ft_init_mutex(data) == -1);
+	if (ft_init_mutex(data) == -1)
 	{
 		ft_free(philos, data);
 		return (NULL);
@@ -103,10 +121,10 @@ t_philo	*ft_init_data(int argc, char **argv)
 		ft_free(philos, data);
 		return (NULL);
 	}
-	return (data);
+	return (philos);
 }
 
-void	ft_free(t_philo *philos, t_data *data)
+void	ft_free(t_philo **philos, t_data *data)
 {
 	int	i;
 
