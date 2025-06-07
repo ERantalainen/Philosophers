@@ -1,0 +1,22 @@
+----- TRACE BEGINS -----
+
+-- Basic Error Tests --
+
+No arguments: No error message found
+
+1: No error message found
+
+1 1: No error message found
+
+1 1 1: No error message found
+
+1 1 1 1 1 1: No error message found
+
+1 1 0 1: Program timed out. Possible infinite loop
+
+1 1 1 0: Program timed out. Possible infinite loop
+
+1 1 1 1 0: Program timed out. Possible infinite loop
+
+-- One Philosopher Tests --
+

@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:05:13 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/06 02:23:47 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/07 22:42:20 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,53 @@ time_t	get_time(void)
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_usec / 1000) + (tv.tv_sec * 1000));
+}
+
+int	ft_stop_sim(t_philo **philos)
+{
+	int	i;
+	int	n;
+
+	ft_join_philos(philos);
+	n = philos[0]->data->n;
+	i = 0;
+	while (i < n)
+	{
+		pthread_mutex_destroy(&philos[0]->data->forks[i]);
+		i++;
+	}
+	free(philos[0]->data->forks);
+	pthread_mutex_destroy(philos[0]->data->print);
+	free(philos[0]->data->print);
+	free(philos[0]->data);
+	i = 0;
+	while(i < n)
+	{
+		free(philos[i]);
+		i++;
+	}
+	free(philos);
+	return (0);
+}
+
+void	ft_join_philos(t_philo **philos)
+{
+	int	i;
+
+	i = 0;
+	while (i < philos[0]->data->n)
+	{
+		pthread_join(philos[i]->id, NULL);
+		i++;
+	}
+}
+
+void	ft_one(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->forks[0]);
+	usleep(philo->data->time_to_die * 1000);
+	ft_philo_printf(0, "died", philo);
+	philo->state = 0;
+	philo->data->status = 0;
+	pthread_mutex_unlock(&philo->data->forks[0]);
 }

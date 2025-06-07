@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:56:10 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/06 02:03:31 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/08 00:26:52 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,17 @@ t_philo	**ft_init_philos(t_data *data)
 			free(philosophers);
 			return (NULL);
 		}
+		philosophers[i]->meal = malloc(sizeof(pthread_mutex_t));
+		if (!philosophers[i]->meal)
+		{
+			printf("Malloc error\n");
+			return (NULL);
+		}
+		if (pthread_mutex_init(philosophers[i]->meal, NULL) != 0)
+		{
+			printf("Mutex error");
+			return (NULL);
+		}
 		i++;
 	}
 	i = 0;
@@ -112,12 +123,14 @@ t_philo	**ft_init_data(int argc, char **argv)
 		return (NULL);
 	if (ft_init_mutex(data) == -1)
 	{
+		printf("mutex error\n");
 		ft_free(philos, data);
 		return (NULL);
 	}
 	philos = ft_init_philos(data);
 	if (philos == NULL)
 	{
+		printf("philo error\n");
 		ft_free(philos, data);
 		return (NULL);
 	}

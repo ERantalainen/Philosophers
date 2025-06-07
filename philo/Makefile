@@ -1,6 +1,6 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g -O3 -fsanitize=address
-SRCS = helpers.c input.c main.c philo_helpers.c input.c main.c philos.c
+CFLAGS = -Wall -Wextra -Werror -pthread -O3
+SRCS = helpers.c input.c main.c philo_helpers.c input.c main.c philos.c death.c
 OBJS = $(SRCS:.c=.o)
 NAME = philo
 
@@ -19,5 +19,7 @@ fclean: clean
 	rm -f $(NAME)
 
 re:	fclean all
+
+.SECONDARY: $(OBJS)
 
 .PHONY: clean fclean all re

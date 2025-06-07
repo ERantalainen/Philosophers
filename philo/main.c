@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 02:42:46 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/06 01:23:26 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/08 00:25:03 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@ int	main(int argc, char **argv)
 
 	philosophers = ft_init_data(argc, argv);
 	if (!philosophers)
+	{
+		printf("ERROR\n");
 		return (1);
+	}
 	ft_begin_philo(philosophers);
+	ft_stop_sim(philosophers);
+	return (0);
 }
 
 
