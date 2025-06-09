@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:56:10 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/08 00:26:52 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:06:21 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ t_data	*validate_input(char **args, int count)
 	if (!data)
 		return (NULL);
 	data->n = philo_atoi(args[0]);
-	if (data->n == -1)
+	if (data->n <= 0)
 		return (NULL);
 	data->time_to_die = philo_atoi(args[1]);
-	if (data->time_to_die == -1)
+	if (data->time_to_die <= 0)
 		return (NULL);
 	data->time_to_eat = philo_atoi(args[2]);
-	if (data->time_to_eat == - 1)
+	if (data->time_to_eat <= 0)
 		return (NULL);
 	data->time_to_sleep = philo_atoi(args[3]);
-	if (data->time_to_sleep == - 1)
+	if (data->time_to_sleep <= 0)
 		return (NULL);
 	if (count == 5)
 		data->number_of_eat = philo_atoi((args[4]));

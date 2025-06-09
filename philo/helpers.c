@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:05:13 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/07 22:42:20 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:13:38 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,19 @@ void	ft_join_philos(t_philo **philos)
 	i = 0;
 	while (i < philos[0]->data->n)
 	{
-		pthread_join(philos[i]->id, NULL);
+		printf("%d, is %d\n", i, philos[i]->state);
+		if (philos[i]->state != 0)
+			pthread_join(philos[i]->id, NULL);
 		i++;
 	}
 }
 
 void	ft_one(t_philo *philo)
 {
+	ft_philo_printf(0, "has started thinking", philo);
 	pthread_mutex_lock(&philo->data->forks[0]);
-	usleep(philo->data->time_to_die * 1000);
+	ft_philo_printf(0, "has grabbed a fork", philo);
+	usleep((philo->data->time_to_die * 1000));
 	ft_philo_printf(0, "died", philo);
 	philo->state = 0;
 	philo->data->status = 0;

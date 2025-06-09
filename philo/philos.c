@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:45:40 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/08 00:55:52 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:10:47 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ int	ft_begin_philo(t_philo **philo)
 	philo[0]->data->status = 1;
 	pthread_create(&death, NULL, &death_check, philo);
 	pthread_detach(death);
-	while (philo[0]->data->status != 0)
+	while (1)
 	{
+		if (philo[0]->data->status == 0 || philo[0]->data->status == 2)
+			break ;
 	}
 	return (1);
 }
@@ -50,22 +52,23 @@ void	*loop(void *arg)
 	philo->last_meal = philo->data->start;
 	if (philo->data->n == 1)
 			ft_one(philo);
-	while (1)
+	while (1 && philo->data->status != 0)
 	{
+		if (philo->data->status == 0 || think(philo->philo_n, philo) == 0)
+			break ;
 		if (philo->data->status == 0 || check_eat(philo->philo_n, philo) == 0)
 			break ;
 		if (rest(philo->philo_n, philo) == 0)
 			break ;
 		if (philo->times_eaten == philo->data->number_of_eat)
-			break ; // add special case
-		if (philo->data->status == 0)
-			break ;
-		if (philo->data->status == 0 || think(philo->philo_n, philo) == 0)
+			while (philo->data->status != 0 || philo->data->status != 2)
+		if (philo->data->status == 0 || philo->data->status == 2)
 			break ;
 	}
 	if (philo->times_eaten == philo->data->number_of_eat)
-		while (philo->data->status != 2 && philo->data->status != 0)
+		while (philo->data->status != 2 || philo->data->status != 0)
 		{}
+	philo->state = 0;
 	return (0);
 }
 
@@ -92,6 +95,5 @@ int	check_eat(int i, t_philo *philos)
 	eat(i, philos);
 	pthread_mutex_unlock(&philos->data->forks[i]);
 	pthread_mutex_unlock(&philos->data->forks[(i + 1) % philos->data->n]);
-	// printf("%d letting go\n", i);
 	return (1);
 }

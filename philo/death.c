@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:19:54 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/08 01:01:11 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/09 23:52:03 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	*death_check(void *arg)
 				return (NULL);
 			i++;
 		}
+		if (ft_check_meals(philos))
+			break ;
 		usleep(1000);
 	}
 	return (NULL);
@@ -38,13 +40,16 @@ void	*death_check(void *arg)
 int	ft_check_death(int i, t_philo *philos)
 {
 	time_t	time;
+
+	if (philos->state == 2)
+		return (0);
 	if (philos->data->status == 0)
 		return (1);
 	pthread_mutex_lock(philos->meal);
 	time = get_time();
 	if (time > philos->data->time_to_die + philos->last_meal)
 	{
-		printf("Difference: %ld (%ld - %ld)\n", time - philos->last_meal, time, philos->last_meal);
+		// // printf("Difference: %ld (%ld - %ld)\n", time - philos->last_meal, time, philos->last_meal);
 		pthread_mutex_lock(philos->data->print);
 		printf("%li %d %s\n", get_time(), i + 1, "died");
 		pthread_mutex_unlock(philos->data->print);
@@ -54,4 +59,19 @@ int	ft_check_death(int i, t_philo *philos)
 	}
 	pthread_mutex_unlock(philos->meal);
 	return (0);
+}
+
+int	ft_check_meals(t_philo **philos)
+{
+	int	i;
+
+	i = 0;
+	while (i < philos[0]->data->n)
+	{
+		if (philos[i]->state != 2)
+			return (0);
+		i++;
+	}
+	philos[0]->data->status = 2;
+	return (1);
 }
