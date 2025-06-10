@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 02:34:35 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/09 23:24:55 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:04:10 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,13 @@ typedef struct s_data
 	atomic_int		status;
 	struct timeval	tv;
 	volatile long	start;
-	volatile int	time_to_die;
-	volatile int	time_to_sleep;
-	volatile int	time_to_eat;
+	atomic_int	time_to_die;
+	atomic_int 	time_to_sleep;
+	atomic_int 	time_to_eat;
 	volatile int	number_of_eat;
-	// int				(*death)(int, t_philo *);
-	// int				(*eat)(int, t_philo *);
-	// int				(*sleep)(int, t_philo *);
-	// int				(*think)(int, t_philo *);
-	// int				(*grab)(int, t_philo *);
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*print;
+
 }	t_data;
 
 typedef struct s_philo
@@ -48,6 +44,7 @@ typedef struct s_philo
 	pthread_t		id;
 	t_data			*data;
 	pthread_mutex_t	*meal;
+
 }	t_philo;
 
 t_data	*validate_input(char **args, int count);

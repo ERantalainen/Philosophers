@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 17:06:03 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/09 23:56:56 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:11:30 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ int	eat(int i, t_philo *philos)
 
 	if (philos->data->status == 0)
 		return (0);
-	ft_philo_printf(i, "is eating", philos);
 	pthread_mutex_lock(philos->meal);
 	philos->last_meal = get_time();
 	pthread_mutex_unlock(philos->meal);
+	if (philos->data->status == 0)
+		return (0);
+	ft_philo_printf(i, "is eating", philos);
 	target = get_time() + philos->data->time_to_eat;
 	while (get_time() < target)
 	{
@@ -88,27 +90,10 @@ int	rest(int i, t_philo *philos)
 
 int	think(int i, t_philo *philos)
 {
-	time_t	target;
-	time_t	cycle;
-	time_t	until_death;
-
 	if (philos->data->status == 0)
 		return (0);
-	until_death = philos->data->time_to_die - (get_time() - philos->last_meal);
-	cycle = philos->data->time_to_eat + philos->data->time_to_sleep;
-	target = (until_death - cycle) / 2;
-	if (target < 100)
-		target = 1;
-	else
-		target += get_time();
 	ft_philo_printf(i, "is thinking", philos);
-	usleep(10);
-	// while (get_time() < target)
-	// {
-	// 	if (philos->data->status == 0)
-	// 		return (0);
-	// 	usleep(250);
-	// }
+	usleep(1000);
 	if (philos->data->status == 0)
 		return (0);
 	return (1);
