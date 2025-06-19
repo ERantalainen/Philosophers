@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:56:10 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/10 00:06:21 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:55:37 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_data	*validate_input(char **args, int count)
 {
-	t_data *data;
+	t_data	*data;
 
 	if (count < 4 || count > 5)
 		return (NULL);
@@ -77,15 +77,31 @@ t_philo	**ft_init_philos(t_data *data)
 	philosophers = malloc(sizeof(t_philo *) * data->n);
 	if (!philosophers)
 		return (NULL);
+
+	i = 0;
+	while (i < data->n)
+	{
+		philosophers[i]->philo_n = i;
+		philosophers[i]->times_eaten = 0;
+		philosophers[i]->last_meal = 0;
+		philosophers[i]->state = 1;
+		philosophers[i]->data = data;
+		i++;
+	}
+	return (philosophers);
+}
+
+t_philo **philo_data(t_data *data, t_philo **philosophers)
+{
+	int	i;
+
+	i = 0;
 	while (i < data->n)
 	{
 		philosophers[i] = malloc(sizeof(t_philo));
 		if (!philosophers[i])
 		{
-			while (--i)
-				free(philosophers[i]);
-			free(philosophers);
-			return (NULL);
+			free_philo(philosophers, i);
 		}
 		philosophers[i]->meal = malloc(sizeof(pthread_mutex_t));
 		if (!philosophers[i]->meal)
@@ -100,23 +116,12 @@ t_philo	**ft_init_philos(t_data *data)
 		}
 		i++;
 	}
-	i = 0;
-	while (i < data->n)
-	{
-		philosophers[i]->philo_n = i;
-		philosophers[i]->times_eaten = 0;
-		philosophers[i]->last_meal = 0;
-		philosophers[i]->state = 1;
-		philosophers[i]->data = data;
-		i++;
-	}
-	return (philosophers);
 }
 t_philo	**ft_init_data(int argc, char **argv)
 {
 	t_data	*data;
 	t_philo	**philos;
-	
+
 	philos = NULL;
 	data = validate_input(argv + 1, argc - 1);
 	if (!data)
@@ -155,4 +160,15 @@ void	ft_free(t_philo **philos, t_data *data)
 		free(data);
 	if (philos)
 		free(philos);
+}
+
+void	free_philo(t_philo **philosophers, int i)
+{
+		if (!philosophers[i])
+		{
+			while (--i)
+				free(philosophers[i]);
+			free(philosophers);
+			return (NULL);
+		}
 }

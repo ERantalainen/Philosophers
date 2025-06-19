@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 23:19:54 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/10 17:53:41 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:50:51 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	*death_check(void *arg)
 
 	philos = (t_philo **)arg;
 	while (philos[0]->data->status == -1)
-	{}
+	{
+	}
 	usleep(100);
 	while (1)
 	{
@@ -57,7 +58,6 @@ int	ft_check_death(int i, t_philo *philos)
 		philos->data->status = 0;
 		return (1);
 	}
-
 	return (0);
 }
 

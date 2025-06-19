@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:05:13 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/10 14:26:25 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:51:14 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	philo_atoi(char	*s)
 
 time_t	get_time(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_usec / 1000) + (tv.tv_sec * 1000));
@@ -60,7 +60,7 @@ int	ft_stop_sim(t_philo **philos)
 	free(philos[0]->data->print);
 	free(philos[0]->data);
 	i = 0;
-	while(i < n)
+	while (i < n)
 	{
 		free(philos[i]);
 		i++;
