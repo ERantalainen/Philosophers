@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 02:34:35 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/10 15:04:10 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/20 01:12:17 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ typedef struct s_data
 	atomic_int		status;
 	struct timeval	tv;
 	volatile long	start;
-	atomic_int	time_to_die;
-	atomic_int 	time_to_sleep;
-	atomic_int 	time_to_eat;
+	atomic_int		time_to_die;
+	atomic_int		time_to_sleep;
+	atomic_int		time_to_eat;
 	volatile int	number_of_eat;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*print;
@@ -51,13 +51,14 @@ t_data	*validate_input(char **args, int count);
 int		philo_atoi(char	*s);
 int		ft_init_mutex(t_data *data);
 t_philo	**ft_init_data(int argc, char **argv);
+void	free_philo(t_philo **philosophers, int i);
 
-int	grab_fork(int n, t_philo *philos);
-int	eat(int n, t_philo *philos);
-int	rest(int n, t_philo *philos);
-int	think(int n, t_philo *philos);
-int	ft_philo_printf(int n, char *s, t_philo *philos);
-int	ft_check_death(int n, t_philo *philos);
+int		grab_fork(int n, t_philo *philos);
+int		eat(int n, t_philo *philos);
+int		rest(int n, t_philo *philos);
+int		think(int n, t_philo *philos);
+int		ft_philo_printf(int n, char *s, t_philo *philos);
+int		ft_check_death(int n, t_philo *philos);
 long	get_time(void);
 
 int		ft_stop_sim(t_philo **philos);

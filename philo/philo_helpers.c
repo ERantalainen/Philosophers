@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 17:06:03 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/10 18:11:30 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/20 01:15:35 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,7 @@ int	grab_fork(int i, t_philo *philos)
 		ft_philo_printf(i, "has taken a fork", philos);
 	}
 	if (philos->data->status == 0)
-	{
-		pthread_mutex_unlock(&philos->data->forks[left]);
-		pthread_mutex_unlock(&philos->data->forks[right]);
 		return (0);
-	}
 	return (1);
 }
 
@@ -71,6 +67,7 @@ int	eat(int i, t_philo *philos)
 	}
 	return (1);
 }
+
 int	rest(int i, t_philo *philos)
 {
 	time_t		target;

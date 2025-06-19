@@ -6,7 +6,7 @@
 /*   By: erantala <erantala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:56:10 by erantala          #+#    #+#             */
-/*   Updated: 2025/06/19 15:55:37 by erantala         ###   ########.fr       */
+/*   Updated: 2025/06/20 01:09:06 by erantala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ t_philo	**ft_init_philos(t_data *data)
 	philosophers = malloc(sizeof(t_philo *) * data->n);
 	if (!philosophers)
 		return (NULL);
-
 	i = 0;
 	while (i < data->n)
 	{
@@ -91,7 +90,7 @@ t_philo	**ft_init_philos(t_data *data)
 	return (philosophers);
 }
 
-t_philo **philo_data(t_data *data, t_philo **philosophers)
+t_philo	**philo_data(t_data *data, t_philo **philosophers)
 {
 	int	i;
 
@@ -116,59 +115,4 @@ t_philo **philo_data(t_data *data, t_philo **philosophers)
 		}
 		i++;
 	}
-}
-t_philo	**ft_init_data(int argc, char **argv)
-{
-	t_data	*data;
-	t_philo	**philos;
-
-	philos = NULL;
-	data = validate_input(argv + 1, argc - 1);
-	if (!data)
-		return (NULL);
-	if (ft_init_mutex(data) == -1)
-	{
-		printf("mutex error\n");
-		ft_free(philos, data);
-		return (NULL);
-	}
-	philos = ft_init_philos(data);
-	if (philos == NULL)
-	{
-		printf("philo error\n");
-		ft_free(philos, data);
-		return (NULL);
-	}
-	return (philos);
-}
-
-void	ft_free(t_philo **philos, t_data *data)
-{
-	int	i;
-
-	i = 0;
-	if (data->forks)
-	{
-		while (i < data->n)
-		{
-			pthread_mutex_destroy(&data->forks[i]);
-			i++;
-		}
-		free(data->forks);
-	}
-	if (data)
-		free(data);
-	if (philos)
-		free(philos);
-}
-
-void	free_philo(t_philo **philosophers, int i)
-{
-		if (!philosophers[i])
-		{
-			while (--i)
-				free(philosophers[i]);
-			free(philosophers);
-			return (NULL);
-		}
 }

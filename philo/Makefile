@@ -1,6 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
-SRCS = helpers.c input.c main.c philo_helpers.c input.c main.c philos.c death.c
+SRCS = helpers.c input.c main.c philo_helpers.c input.c main.c philos.c death.c \
+	input_helpers.c
 OBJS = $(SRCS:.c=.o)
 NAME = philo
 
